@@ -13,14 +13,15 @@ node("slave") {
     
     stage "test"
 
-    def commandToRun = "oscript -encoding=utf-8 testrunner.os -runall . xddReportPath tests/report.xml";
-    dir('tests') {
-        if (isUnix){
-            sh "${commandToRun}"
-        } else {
-            bat "@chcp 1251 > nul \n${commandToRun}"
-        }    
-    }
+    // dir('tests') {
+    def commandToRun = "oscript -encoding=utf-8 testrunner.os -runall tests xddReportPath tests/report.xml";
+
+    if (isUnix){
+        sh "${commandToRun}"
+    } else {
+        bat "@chcp 1251 > nul \n${commandToRun}"
+    }    
+    // }
 
     step([$class: 'JUnitResultArchiver', testResults: '**/tests/*.xml'])
 
