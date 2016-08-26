@@ -1,0 +1,151 @@
+{
+    "version": "0.1.0",
+    "windows": {
+        "command": "cmd",
+        "args": ["/c"]
+    },
+    "linux": {
+        "command": "sh",
+        "args": ["-c"]
+    },
+    "isShellCommand": true,
+    "showOutput": "silent",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "taskName": "1testrunner: Testing project",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "${workspaceRoot}/testrunner.os",
+                "-runall",
+                "${workspaceRoot}/tests"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            // "isBuildCommand": false,
+            "isTestCommand": false,
+            "problemMatcher": {
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "{Модуль\\s+(.+)\\s\\/\\s.*:\\s+(\\d+)\\s+\\/\\s+([^{]*)",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                }
+            }
+        },
+        {
+            "taskName": "1testrunner: Test current test-file",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "${workspaceRoot}/testrunner.os",
+                "-run",
+                "${file}"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            // "isBuildCommand": false,
+            "isTestCommand": false,
+            "problemMatcher": {
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "{Модуль\\s+(.+)\\s\\/\\s.*:\\s+(\\d+)\\s+\\/\\s+([^{]*)",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                }
+            }
+        },
+        {
+            "taskName": "Opm: build",
+            "args": [
+                "chcp 65001 >nul",
+                "&&",
+                "opm",
+                "build",
+                "${workspaceRoot}"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            // "isBuildCommand": false,
+            "isTestCommand": false,
+            "problemMatcher": {
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "{Модуль\\s+(.+)\\s\\/\\s.*:\\s+(\\d+)\\s+\\/\\s+([^{]*)",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                }
+            }
+        },
+        {
+            "taskName": "OneScript: compile",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "-compile",
+                "${file}",
+                "-env=${workspaceRoot}/testrunner.os"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            "isBuildCommand": false
+        },
+        {
+            "taskName": "OneScript: check",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "-check",
+                "${file}",
+                "-env=${workspaceRoot}/testrunner.os"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            "isBuildCommand": false
+        },
+        {
+            "taskName": "OneScript: make",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "-make",
+                "${file}",
+                "${fileBasename}.exe"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            "isBuildCommand": false
+        },
+        {
+            "taskName": "OneScript: run",
+            "args": [
+                 "oscript",
+                 "-encoding=utf-8",
+                "${file}"
+            ],
+            "echoCommand": true,
+            "showOutput": "always",
+            "suppressTaskName": true,
+            "isBuildCommand": true,
+            "problemMatcher": {
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^{Модуль\\s+(.*)\\s\\/\\s.*:\\s+(\\d+)\\s+\\/\\s+(.*)}$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                }
+            }
+        }
+    ]
+}
