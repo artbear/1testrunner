@@ -7,6 +7,7 @@ init:
 #  oscript: C:\Program Files (x86)\OneScript\bin\oscript.exe
 install:
 - cmd: "git submodule update --init --recursive\n\ncurl -o %temp%\\oscript-setup.exe http://oscript.io/downloads/night-build/exe\n\nrem \n%temp%\\oscript-setup.exe /silent /log=\"%temp%\\oscript-setup.log\" /saveinf=\"%temp%\\oscript-setup-settings.txt\"\n\nSET PATH=%PATH%;%ProgramFiles(x86)%\\OneScript\\bin\n\nrem type %temp%\\oscript-setup.log\n\"%ProgramFiles(x86)%\\OneScript\\bin\\oscript.exe\" -version"
+- cmd: ""%ProgramFiles(x86)%\\OneScript\\bin\\opm\" update 1commands
 # to disable automatic builds
 build: off
 test_script:
