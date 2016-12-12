@@ -10,6 +10,17 @@ node("slave") {
     
     checkout scm
     if (isUnix) {sh 'git submodule update --init'} else {bat "git submodule update --init"}
+
+    stage "libs update"
+    def libUpdateCmd = """opm update 1commands""";
+    // если использовать oscript -encoding=utf-8, то использовать в Jenkins на Windows ни одно переключение кодировок через chcp ХХХ не даст правильную кодировку, все время будут иероглифы !!
+    // в итого в Jenkins на Windows нужно запускать oscript без -encoding=utf-8  
+
+    if (isUnix){
+        sh "${libUpdateCmd}"
+    } else {
+        bat "@chcp 1251 > nul \n${libUpdateCmd}"
+    }    
     
     stage "test"
 
