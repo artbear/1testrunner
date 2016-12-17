@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/7sgdu30u1yqbot4m?svg=true)](https://ci.appveyor.com/project/artbear/1testrunner)
+[![Join the chat at https://gitter.im/EvilBeaver/oscript-library](https://badges.gitter.im/EvilBeaver/oscript-library.svg)](https://gitter.im/EvilBeaver/oscript-library?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![Build status](https://ci.appveyor.com/api/projects/status/7sgdu30u1yqbot4m?svg=true)](https://ci.appveyor.com/project/artbear/1testrunner) [![Build Status](https://travis-ci.org/artbear/1testrunner.svg)](https://travis-ci.org/artbear/1testrunner)
 
 Организовано приемочное тестирование, аналогичное тестированию 1C в проекте [xUnitFor1C](https://github.com/xDrivenDevelopment/xUnitFor1C/wiki)
 
@@ -54,7 +54,9 @@
 
 Пример скрипта-теста находится в `tests\example-test.os` :
 
-```
+```bsl
+#Использовать asserts
+
 Перем юТест;
 
 // основной метод для тестирования
@@ -70,7 +72,7 @@
 КонецФункции
 
 Процедура ТестДолжен_ПроверитьВерсию() Экспорт
-	юТест.ПроверитьРавенство("0.1", Версия());
+	Утверждения.ПроверитьРавенство("0.1", Версия());
 КонецПроцедуры
 
 Функция Версия() Экспорт
