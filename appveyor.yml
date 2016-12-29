@@ -1,6 +1,7 @@
 version: 1.2.{build}
 pull_requests:
   do_not_increment_build_number: true
+max_jobs: 1
 init:
 - ps: Set-WinSystemLocale ru-RU
 #environment:
@@ -10,6 +11,7 @@ install:
     git submodule update --init --recursive
 
     curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/latest/exe
+
     # curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/night-build/exe
 
     %temp%\oscript-setup.exe /silent /log="%temp%\oscript-setup.log" /saveinf="%temp%\oscript-setup-settings.txt"
