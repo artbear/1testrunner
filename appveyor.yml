@@ -4,27 +4,50 @@ pull_requests:
 max_jobs: 1
 init:
 - ps: Set-WinSystemLocale ru-RU
+
 #environment:
 #  oscript: C:\Program Files (x86)\OneScript\bin\oscript.exe
+
 install:
 - cmd: >-
+    @echo on
+
     git submodule update --init --recursive
+
+    set
 
     curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/latest/exe
 
-    @rem curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/night-build/exe
-
     %temp%\oscript-setup.exe /silent /log="%temp%\oscript-setup.log" /saveinf="%temp%\oscript-setup-settings.txt"
 
-    dir "%ProgramFiles(x86)%\OneScript\bin"
-    dir "%ProgramFiles(x86)%\OneScript\lib"
+    set OSCRIPT=%ProgramFiles(x86)%\OneScript
 
-    "%ProgramFiles(x86)%\OneScript\bin\oscript.exe" -version
+    dir "%OSCRIPT%\bin"
+    dir "%OSCRIPT%\lib"
+
+    rem SET PATH=%CD%\engine\bin;%PATH%
+
+    SET PATH=%OSCRIPT%\bin;%PATH%
+
+    where oscript
+
+    oscript -version
+
+    chcp 65001
+
+    opm install opm
+    
+    opm list
 
 # to disable automatic builds
 build: off
 test_script:
-- cmd: appveyor-runtests.cmd
+- cmd: >-
+    
+    appveyor-runtests.cmd
+
+    pushd %APPVEYOR_BUILD_FOLDER%
+
 after_test:
 - ps: # upload results to AppVeyor
 - ps: Write-Host "Загружаю результаты тестов на CI"
