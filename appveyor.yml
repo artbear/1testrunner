@@ -12,7 +12,7 @@ install:
 
     curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/latest/exe
 
-    # curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/night-build/exe
+    @rem curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/night-build/exe
 
     %temp%\oscript-setup.exe /silent /log="%temp%\oscript-setup.log" /saveinf="%temp%\oscript-setup-settings.txt"
 
