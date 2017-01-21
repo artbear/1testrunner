@@ -18,7 +18,7 @@ install:
 
 script:
  - echo "Running tests"
- - oscript -encoding=utf-8 testrunner.os -runall tests xddReportPath tests
+ - oscript -encoding=utf-8 main.os -runall tests xddReportPath tests
 
 sudo: required
 

@@ -25,7 +25,7 @@ node("slave") {
     stage "test"
 
     // dir('tests') {
-    def commandToRun = """oscript testrunner.os -runall tests xddReportPath tests""";
+    def commandToRun = """oscript main.os -runall tests xddReportPath tests""";
     // если использовать oscript -encoding=utf-8, то использовать в Jenkins на Windows ни одно переключение кодировок через chcp ХХХ не даст правильную кодировку, все время будут иероглифы !!
     // в итого в Jenkins на Windows нужно запускать oscript без -encoding=utf-8  
 
