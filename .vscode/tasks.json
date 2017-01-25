@@ -17,7 +17,7 @@
             "args": [
                  "oscript",
                  "-encoding=utf-8",
-                "${workspaceRoot}/testrunner.os",
+                "${workspaceRoot}/main.os",
                 "-runall",
                 "${workspaceRoot}/tests"
             ],
@@ -41,7 +41,7 @@
             "args": [
                  "oscript",
                  "-encoding=utf-8",
-                "${workspaceRoot}/testrunner.os",
+                "${workspaceRoot}/main.os",
                 "-run",
                 "${file}"
             ],
@@ -91,7 +91,7 @@
                  "-encoding=utf-8",
                 "-compile",
                 "${file}",
-                "-env=${workspaceRoot}/testrunner.os"
+                "-env=${workspaceRoot}/main.os"
             ],
             "echoCommand": true,
             "showOutput": "always",
@@ -105,7 +105,7 @@
                  "-encoding=utf-8",
                 "-check",
                 "${file}",
-                "-env=${workspaceRoot}/testrunner.os"
+                "-env=${workspaceRoot}/main.os"
             ],
             "echoCommand": true,
             "showOutput": "always",
