@@ -2,7 +2,7 @@
     "version": "0.1.0",
     "windows": {
         "command": "cmd",
-        "args": ["/c"]
+        "args": ["/c", "chcp 65001 >nul &"]
     },
     "linux": {
         "command": "sh",
@@ -16,7 +16,7 @@
             "taskName": "1testrunner: Testing project",
             "args": [
                  "oscript",
-                 "-encoding=utf-8",
+                 //"-encoding=utf-8",
                 "${workspaceRoot}/main.os",
                 "-runall",
                 "${workspaceRoot}/tests"
@@ -40,7 +40,7 @@
             "taskName": "1testrunner: Test current test-file",
             "args": [
                  "oscript",
-                 "-encoding=utf-8",
+                 //"-encoding=utf-8",
                 "${workspaceRoot}/main.os",
                 "-run",
                 "${file}"
@@ -61,10 +61,10 @@
             }
         },
         {
-            "taskName": "Opm: build",
+            "taskName": "Opm: package build",
             "args": [
-                "chcp 65001 >nul",
-                "&&",
+                // "chcp 65001 >nul",
+                // "&&",
                 "opm",
                 "build",
                 "${workspaceRoot}"
@@ -88,7 +88,7 @@
             "taskName": "OneScript: compile",
             "args": [
                  "oscript",
-                 "-encoding=utf-8",
+                //  "-encoding=utf-8",
                 "-compile",
                 "${file}",
                 "-env=${workspaceRoot}/main.os"
@@ -102,7 +102,7 @@
             "taskName": "OneScript: check",
             "args": [
                  "oscript",
-                 "-encoding=utf-8",
+                //  "-encoding=utf-8",
                 "-check",
                 "${file}",
                 "-env=${workspaceRoot}/main.os"

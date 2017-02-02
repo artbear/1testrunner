@@ -12,4 +12,5 @@
 		.ВключитьФайл("main.os")
 		.ВключитьФайл("testrunner.os")
 		.ВключитьФайл("readme.md")
+		.ВключитьФайл("lib.config")
 		.ИсполняемыйФайл("main.os", "1testrunner");
