@@ -14,7 +14,7 @@
 
 Проверить все файлы текущего каталога из командной строки (без паузы, если есть упавшие тесты):
 
-    "C:\Program Files (x86)\OneScript\oscript.exe" "ПутьStart\testrunner.os" -runall "ТекущийКаталог" xddReportPath "ТекущийКаталог"
+    1testrunner -runall "ТекущийКаталог" xddReportPath "ТекущийКаталог"
 
 или
 
@@ -24,8 +24,11 @@
 
 ### Формат командной строки:
 
-    oscript tests\testrunner.os [-command] testfile|testdir [test-id|test-number] [-option [optionData]]
+    1testrunner [-command] testfile|testdir [test-id|test-number] [-option [optionData]]
 
+или
+
+    oscript <каталог 1testrunner>/main.os [-command] testfile|testdir [test-id|test-number] [-option [optionData]]
 
 ### Виды команд
 
@@ -40,13 +43,13 @@
 
 ### Примеры:
 
-* `oscript tests\testrunner.os -show testfile` - вывод списка тестов
-* `oscript tests\testrunner.os testfile` или `oscript tests\testrunner.os -run testfile` - запуск всех тестов из файла
-* `oscript tests\testrunner.os -run testfile 5` или `oscript tests\testrunner.os testfile 5` - запуск теста №5
-* `oscript tests\testrunner.os -run testfile "Тест1"` или `oscript tests\testrunner.os testfile "Тест1"`- запуск теста с именем Тест1
+* `1testrunner -show testfile` - вывод списка тестов
+* `1testrunner testfile` или `1testrunner -run testfile` - запуск всех тестов из файла
+* `1testrunner -run testfile 5` или `1testrunner testfile 5` - запуск теста №5
+* `1testrunner -run testfile "Тест1"` или `1testrunner testfile "Тест1"`- запуск теста с именем Тест1
 
-* `oscript tests\testrunner.os -runall tests` - запуск всех тестов из каталога tests
-* `oscript tests\testrunner.os -runall tests xddReportPath .` - запуск всех тестов из каталога tests и формирование отчета тестирования в формате  junit-xml
+* `1testrunner -runall tests` - запуск всех тестов из каталога tests
+* `1testrunner -runall tests xddReportPath .` - запуск всех тестов из каталога tests и формирование отчета тестирования в формате  junit-xml
 
 ### Формат скриптов-тестов
 
@@ -82,9 +85,9 @@
 
 ### Механизм работы с временными файлами
 
-В testrunner.os встроен механизм работы с временными файлами.
+В `1testrunner` встроен механизм работы с временными файлами.
 Удобен для автосоздания и автоудаления файлов после выполнения тестов.
-Вызывать через юТест.
+Вызывать через `юТест`.
 
 Методы:
 
@@ -104,10 +107,10 @@
 
 или
 
-    "C:\Program Files (x86)\OneScript\oscript.exe" "$(CURRENT_DIRECTORY)\testrunner.os" -run "$(FULL_CURRENT_PATH)"
+    1testrunner -run "$(FULL_CURRENT_PATH)"
 
 В случае ошибок в тестах/файле будет выдано окно консоли с описанием ошибки.
 
 ### Пример запуска всех приемочных тестов ###
 
-    "C:\Program Files (x86)\OneScript\oscript.exe" "$(CURRENT_DIRECTORY)\testrunner.os" -runall "$(CURRENT_DIRECTORY)"
+    1testrunner -runall "$(CURRENT_DIRECTORY)"
