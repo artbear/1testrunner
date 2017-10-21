@@ -1,42 +1,95 @@
-#!groovy
-node("slave") {
-    // ВНИМАНИЕ:
-    // Jenkins и его ноды нужно запускать с кодировкой UTF-8
-    //      строка конфигурации для запуска Jenkins
-    //      <arguments>-Xrs -Xmx256m -Dhudson.lifecycle=hudson.lifecycle.WindowsServiceLifecycle -Dmail.smtp.starttls.enable=true -Dfile.encoding=UTF-8 -jar "%BASE%\jenkins.war" --httpPort=8080 --webroot="%BASE%\war" </arguments>
-    //
-    //      строка для запуска нод
-    //      @"C:\Program Files (x86)\Jenkins\jre\bin\java.exe" -Dfile.encoding=UTF-8 -jar slave.jar -jnlpUrl http://localhost:8080/computer/slave/slave-agent.jnlp -secret XXX
-    //      подставляйте свой путь к java, порту Jenkins и секретному ключу
-    //
-    // Если запускать Jenkins не в режиме UTF-8, тогда нужно поменять метод cmd в конце кода, применив комментарий к методу
 
-    def isUnix = isUnix();
-
-    stage "checkout"
-
-    // if (isUnix && !env.DISPLAY) {
-    //    env.DISPLAY=":1"
-    // }
+pipeline {
+    agent none
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '7'))
+        skipDefaultCheckout()
+    }
     
-    checkout scm
-    cmd('git config --system core.longpaths')
-    
-    stage "test"
+    stages {
+        stage('Тестирование кода пакета WIN') {
 
-    // dir('tests') {
-    def commandToRun = """oscript main.os -runall tests xddReportPath tests""";
-    // если использовать oscript -encoding=utf-8, то использовать в Jenkins на Windows ни одно переключение кодировок через chcp ХХХ не даст правильную кодировку, все время будут иероглифы !!
-    // в итого в Jenkins на Windows нужно запускать oscript без -encoding=utf-8  
+            agent { label 'windows' }
 
-    cmd(commandToRun)
-    // }
+            steps {
+                checkout scm
+                
+                script {
+                    bat 'opm install delegate'
+                    bat 'chcp 65001 > nul && oscript main.os -runall tests xddReportPath tests'
+                    junit 'tests/*.xml'
+                        // if( fileExists ('tasks/test.os') ){
+                        //     bat 'chcp 65001 > nul && oscript tasks/test.os'
+                        //     junit 'tests.xml'
+                        // }
+                        // else
+                        //     echo 'no testing task'
+                }
+                
+            }
 
-    step([$class: 'JUnitResultArchiver', testResults: '**/tests/*.xml'])
+        }
 
-}
+        stage('Тестирование кода пакета LINUX') {
 
-def cmd(command) {
-    // TODO при запуске Jenkins не в режиме UTF-8 нужно написать chcp 1251 вместо chcp 65001
-    if (isUnix()){ sh "${command}" } else {bat "chcp 65001\n${command}"}
+            agent { label 'master' }
+
+            steps {
+                echo 'under development'
+            }
+
+        }
+
+        stage('Сборка пакета') {
+
+            agent { label 'windows' }
+
+            steps {
+                checkout scm
+
+                bat 'erase /Q *.ospx'
+                bat 'chcp 65001 > nul && call opm build .'
+
+                stash includes: '*.ospx', name: 'package'
+                archiveArtifacts '*.ospx'
+            }
+
+        }
+        
+        stage('Публикация в хабе') {
+            when {
+                branch 'master'
+            }
+            agent { label 'master' }
+            steps {
+                sh 'rm -f *.ospx'
+                unstash 'package'
+
+                sh '''
+                artifact=`ls -1 *.ospx`
+                basename=`echo $artifact | sed -r 's/(.+)-.*(.ospx)/\\1/'`
+                cp $artifact $basename.ospx
+                sudo rsync -rv *.ospx /var/www/hub.oscript.io/download/$basename/
+                '''.stripIndent()
+            }
+        }
+
+        stage('Публикация в нестабильном хабе') {
+            when {
+                branch 'develop'
+            }
+            agent { label 'master' }
+            steps {
+                sh 'rm -f *.ospx'
+                unstash 'package'
+
+                sh '''
+                artifact=`ls -1 *.ospx`
+                basename=`echo $artifact | sed -r 's/(.+)-.*(.ospx)/\\1/'`
+                cp $artifact $basename.ospx
+                sudo rsync -rv *.ospx /var/www/hub.oscript.io/dev-channel/$basename/
+                '''.stripIndent()
+            }
+        }
+    }
 }
