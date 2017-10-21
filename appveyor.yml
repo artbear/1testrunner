@@ -37,6 +37,10 @@ install:
 
     opm install opm
     
+    opm install -all
+    
+    opm install 1testrunner
+    
     opm list
 
 # to disable automatic builds
