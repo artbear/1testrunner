@@ -15,6 +15,7 @@ pipeline {
                 checkout scm
                 
                 script {
+                    bat 'opm install delegate'
                     bat 'chcp 65001 > nul && oscript main.os -runall tests xddReportPath tests'
                     junit 'tests/*.xml'
                         // if( fileExists ('tasks/test.os') ){
