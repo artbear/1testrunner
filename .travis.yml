@@ -14,7 +14,10 @@ install:
   - rm -rf ./oscript-install
   - echo "Installation 1 complete"
   - which oscript
-  - oscript
+  - oscript -version
+  - opm install opm
+  - opm install -all
+  - opm install 1testrunner
 
 script:
  - echo "Running tests"
