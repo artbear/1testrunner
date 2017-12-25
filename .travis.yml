@@ -15,9 +15,8 @@ install:
   - echo "Installation 1 complete"
   - which oscript
   - oscript -version
-  - opm install opm
-  - opm install -all
-  - opm install 1testrunner
+  - sudo opm install opm
+  - sudo opm install 1testrunner
 
 script:
  - echo "Running tests"
