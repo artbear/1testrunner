@@ -12,8 +12,8 @@
 		.ЗависитОт("delegate", "0.2.0")
 		.ВключитьФайл("src")
 		.ВключитьФайл("tests")
-		.ВключитьФайл("main.os")
-		.ВключитьФайл("testrunner.os")
+		// .ВключитьФайл("src/main.os")
+		// .ВключитьФайл("src/Классы/testrunner.os")
 		.ВключитьФайл("readme.md")
 		.ВключитьФайл("lib.config")
-		.ИсполняемыйФайл("main.os", "1testrunner");
+		.ИсполняемыйФайл("src/main.os", "1testrunner");
