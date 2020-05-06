@@ -5,7 +5,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '7'))
         skipDefaultCheckout()
     }
-    
+
     stages {
         stage('Тестирование кода пакета WIN') {
 
@@ -13,10 +13,10 @@ pipeline {
 
             steps {
                 checkout scm
-                
+
                 script {
                     bat 'opm install delegate'
-                    bat 'chcp 65001 > nul && oscript main.os -runall tests xddReportPath tests'
+                    bat 'chcp 65001 > nul && oscript src/main.os -runall tests xddReportPath tests'
                     junit 'tests/*.xml'
                         // if( fileExists ('tasks/test.os') ){
                         //     bat 'chcp 65001 > nul && oscript tasks/test.os'
@@ -25,7 +25,7 @@ pipeline {
                         // else
                         //     echo 'no testing task'
                 }
-                
+
             }
 
         }
@@ -55,7 +55,7 @@ pipeline {
             }
 
         }
-        
+
         stage('Публикация в хабе') {
             when {
                 branch 'master'
