@@ -28,7 +28,7 @@
 
 или
 
-    oscript <каталог 1testrunner>/main.os [-command] testfile|testdir [test-id|test-number] [-option [optionData]]
+    oscript <каталог 1testrunner>/src/main.os [-command] testfile|testdir [test-id|test-number] [-option [optionData]]
 
 ### Виды команд
 
