@@ -1,3 +1,8 @@
-tests/tests.xml
+﻿tests/tests.xml
 *.ospx
 .vscode/launch.json
+tests.xml
+.scannerwork/
+coverage/
+oscript_modules/
+oscript.cfg
